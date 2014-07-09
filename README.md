@@ -23,5 +23,6 @@ Bushwhacker is a simple, easy to use library that allows more experienced devs t
   * The exception can be rethrown with another exception with a new message and the original exception as the cause
 
 To use bushwhacker just:
+* Configure aspectJ load time weaving through the javaagent command
 * Include the bushwhacker dependency on your *test* classpath (not production -- you don't want to do the extra cost of testing every thrown exception at production time)
 * Create an xml file in your test-resources as bushwhacker/exception-rules.xml.  You can even have bushwhacker rules in your dependencies and it'll pickup all of the exception-rules.xml it can find and add them all (in classpath order).
