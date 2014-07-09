@@ -6,6 +6,7 @@ A simple aspectJ library that can be used to add debugging hints for common pitf
 ## The Problem
 Have you ever been pinged by a new or junior developer that says: "hey take a look at this stack-trace-- do you have any hints?"  Obviously, we try to build systems that fail in descriptive and helpful ways -- but sometimes things fail in ways that aren't easy to make more descriptive or are exceptions out of libraries that we can't easily edit or catch/re-throw.  In one second the experienced developer knows what the problem is or what to recommend.  
 
+## The Solution
 Bushwhacker is a simple, easy to use library that allows more experienced devs to provide additional debugging information (at test time, not production time) to help point junior devs in the right direction when hitting common pitfalls.  It allows you to 
 * Describe rules to pinpoint which exceptions should be caught and what to do with them
 * Rules can be fairly specific using conjunctive constraints such as:
