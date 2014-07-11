@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+    <exceptions>
+        <exception>
+            <matches>
+                <exceptionClass>*</exceptionClass>
+                <thrownFrom>*</thrownFrom>
+                <calledFrom>*</calledFrom>
+                <messageMatches>*</messageMatches>
+            </matches>
+            <action>
+                <updateMessage>
+                    Add debug information here
+                </updateMessage>
+            </action>
+        </exception>
+        <exception>
+            <matches>
+                <exceptionClass>*</exceptionClass>
+                <thrownFrom>*</thrownFrom>
+                <calledFrom>*</calledFrom>
+                <messageMatches>*</messageMatches>
+            </matches>
+            <action>
+                <updateMessage>
+                    Another exception
+                </updateMessage>
+            </action>
+        </exception>
+    </exceptions>
+</rules>

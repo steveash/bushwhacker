@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+    <exceptions>
+        <exception>
+            <matches>
+
+                <!-- specifies a specific class or pattern which matches if it is equal to the exception class itself or any
+                supertype or implemented interface -->
+                <!--<exceptionClass>com.github.steveash.*</exceptionClass>-->
+
+                <!-- a specific class from which the exception was originally thrown; can contain wildcards -->
+                <!--<thrownFrom>java.lang.IllegalArgumentException</throwFrom>-->
+
+                <!-- called-from a specific class+method that must be present in the stack frames; can contain wildcards -->
+                <!--<calledFrom>com.github.*.StringUtils.convertInt</calledFrom>-->
+
+                <!-- whether the message from an exception (or any exception in the caused by chain) matches the regular
+                expression here -->
+                <!--<messageMatches></messageMatches>-->
+
+            </matches>
+            <action>
+                <updateMessage>
+                    Add debug information here
+                </updateMessage>
+            </action>
+        </exception>
+    </exceptions>
+</rules>
