@@ -1,7 +1,7 @@
 package com.github.steveash.bushwhacker;
 
-import com.github.steveash.bushwhacker.rules.Rules;
-import com.github.steveash.bushwhacker.rules.Rules.ExceptionRule;
+import com.github.steveash.bushwhacker.rules.XmlRules;
+import com.github.steveash.bushwhacker.rules.XmlRules.ExceptionRule;
 
 import org.junit.Test;
 
@@ -11,13 +11,13 @@ public class ConfigLoaderTest {
 
   @Test
   public void shouldReadDefaults() throws Exception {
-    Rules rules = ConfigLoader.getInstance().loadRulesFromClasspath("bushwhacker.xml");
+    XmlRules rules = ConfigLoader.getInstance().loadRulesFromClasspath("bushwhacker.xml");
     assertEquals(1, rules.getExceptionRules().size());
   }
 
   @Test
   public void shouldReadPopulated() throws Exception {
-    Rules rules = ConfigLoader.getInstance().loadRulesFromClasspath("rule1.xml");
+    XmlRules rules = ConfigLoader.getInstance().loadRulesFromClasspath("rule1.xml");
     assertEquals(2, rules.getExceptionRules().size());
     ExceptionRule first = rules.getExceptionRules().get(0);
     ExceptionRule second = rules.getExceptionRules().get(1);

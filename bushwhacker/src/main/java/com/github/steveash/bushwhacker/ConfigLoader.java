@@ -1,6 +1,6 @@
 package com.github.steveash.bushwhacker;
 
-import com.github.steveash.bushwhacker.rules.Rules;
+import com.github.steveash.bushwhacker.rules.XmlRules;
 import com.thoughtworks.xstream.XStream;
 
 import java.io.IOException;
@@ -27,29 +27,29 @@ public class ConfigLoader {
 
   public ConfigLoader() {
     xStream = new XStream();
-    xStream.processAnnotations(Rules.class);
+    xStream.processAnnotations(XmlRules.class);
   }
 
-  public Rules loadRulesFromClasspath() throws IOException {
+  public XmlRules loadRulesFromClasspath() throws IOException {
     return loadRulesFromClasspath("bushwhacker.xml");
   }
 
-  public Rules loadRulesFromClasspath(String name) throws IOException {
+  public XmlRules loadRulesFromClasspath(String name) throws IOException {
     return loadRules(ConfigLoader.class.getClassLoader(), name);
   }
 
-  public Rules loadRules(ClassLoader classLoader, String fileName) throws IOException {
+  public XmlRules loadRules(ClassLoader classLoader, String fileName) throws IOException {
     URL maybe = classLoader.getResource(fileName);
     if (maybe != null) {
       return loadRulesFrom(maybe);
     }
-    return new Rules();
+    return new XmlRules();
   }
 
-  private Rules loadRulesFrom(URL url) throws IOException {
+  private XmlRules loadRulesFrom(URL url) throws IOException {
     log.debug("Loading bushwhacker rules from {}", url);
     try (InputStream is = url.openStream()) {
-      return (Rules) xStream.fromXML(is);
+      return (XmlRules) xStream.fromXML(is);
     }
   }
 }

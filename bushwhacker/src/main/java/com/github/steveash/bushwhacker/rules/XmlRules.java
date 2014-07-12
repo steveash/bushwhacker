@@ -10,7 +10,7 @@ import java.util.List;
  * @author Steve Ash
  */
 @XStreamAlias("rules")
-public class Rules {
+public class XmlRules {
 
   @XStreamAlias("exceptions")
   private List<ExceptionRule> exceptionRules = Lists.newArrayList();
