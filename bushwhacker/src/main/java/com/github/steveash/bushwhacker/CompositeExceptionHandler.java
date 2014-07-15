@@ -8,9 +8,9 @@ import com.google.common.collect.ImmutableList;
  */
 public class CompositeExceptionHandler implements ExceptionHandler {
 
-  private final ImmutableList<RuleExceptionHandler> handlers;
+  private final ImmutableList<? extends ExceptionHandler> handlers;
 
-  public CompositeExceptionHandler(Iterable<RuleExceptionHandler> handlers) {
+  public CompositeExceptionHandler(Iterable<? extends ExceptionHandler> handlers) {
     this.handlers = ImmutableList.copyOf(handlers);
   }
 

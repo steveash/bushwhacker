@@ -1,6 +1,5 @@
-package com.github.steveash.bushwhacker;
+package com.github.steveash.bushwhacker.rules;
 
-import com.github.steveash.bushwhacker.rules.XmlRules;
 import com.thoughtworks.xstream.XStream;
 
 import java.io.IOException;

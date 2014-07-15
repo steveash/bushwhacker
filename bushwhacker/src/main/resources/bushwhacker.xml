@@ -20,9 +20,14 @@
 
             </matches>
             <action>
-                <updateMessage>
-                    Add debug information here
-                </updateMessage>
+                <!-- if you just want to control the whole text and replace it use this -->
+                <!--<replaceMessage> Use this test instead </replaceMessage>-->
+
+                <!-- replaces the message with a big flower box with some verbiage and the given hints -->
+                <!--<addHint>Here's some hints to help</addHint>-->
+
+                <!-- intercept and log the exception trace to slf4j-->
+                <!--<writeToLog>true</writeToLog>-->
             </action>
         </exception>
     </exceptions>

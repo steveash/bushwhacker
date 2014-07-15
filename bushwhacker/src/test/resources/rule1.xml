@@ -4,7 +4,6 @@
         <exception>
             <matches>
                 <exceptionClass>*</exceptionClass>
-                <thrownFrom>*</thrownFrom>
                 <calledFrom>*</calledFrom>
                 <messageMatches>*</messageMatches>
             </matches>
@@ -17,7 +16,6 @@
         <exception>
             <matches>
                 <exceptionClass>*</exceptionClass>
-                <thrownFrom>*</thrownFrom>
                 <calledFrom>*</calledFrom>
                 <messageMatches>*</messageMatches>
             </matches>

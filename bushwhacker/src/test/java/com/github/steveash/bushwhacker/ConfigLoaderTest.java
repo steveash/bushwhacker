@@ -1,5 +1,6 @@
 package com.github.steveash.bushwhacker;
 
+import com.github.steveash.bushwhacker.rules.ConfigLoader;
 import com.github.steveash.bushwhacker.rules.XmlRules;
 import com.github.steveash.bushwhacker.rules.XmlRules.ExceptionRule;
 

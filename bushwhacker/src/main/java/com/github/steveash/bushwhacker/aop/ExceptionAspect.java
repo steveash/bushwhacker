@@ -1,5 +1,7 @@
 package com.github.steveash.bushwhacker.aop;
 
+import com.github.steveash.bushwhacker.Bushwhacker;
+
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -31,6 +33,6 @@ public abstract class ExceptionAspect {
 
   @AfterThrowing(pointcut = "eligibleTypes() && !frameworkCode() && !thisAdvice()", throwing = "e")
   public void afterThrown(Exception e) {
-    log.error("Catching thrown ", e);
+    Bushwhacker.tryForDefault().handle(e);
   }
 }

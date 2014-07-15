@@ -36,26 +36,38 @@ public class XmlRules {
 
   public static class ExceptionAction {
 
-    private final String updateMessage;
-
-    public ExceptionAction(String updateMessage) {
-      this.updateMessage = updateMessage;
-    }
+    private final String addHint;
+    private final String replaceMessage;
+    private final Boolean writeToLog;
 
     public ExceptionAction() {
-      this(null);
+      this(null, null, false);
     }
 
-    public String getUpdateMessage() {
-      return updateMessage;
+    public ExceptionAction(String addHint, String replaceMessage, boolean writeToLog) {
+      this.addHint = addHint;
+      this.replaceMessage = replaceMessage;
+      this.writeToLog = writeToLog;
+    }
+
+    public String getAddHint() {
+      return addHint;
+    }
+
+    public String getReplaceMessage() {
+      return replaceMessage;
+    }
+
+    public Boolean isWriteToLog() {
+      return writeToLog;
     }
   }
 
   public static class ExceptionMatch {
 
     private final String exceptionClass;
-    private final String thrownFrom;
     private final String calledFrom;
+    private final String thrownFrom;
     private final String messageMatches;
     private final String custom;
 
@@ -68,18 +80,14 @@ public class XmlRules {
     public ExceptionMatch(String exceptionClass, String thrownFrom, String calledFrom,
                           String messageMatches, String custom) {
       this.exceptionClass = exceptionClass;
-      this.thrownFrom = thrownFrom;
       this.calledFrom = calledFrom;
       this.messageMatches = messageMatches;
       this.custom = custom;
+      this.thrownFrom = thrownFrom;
     }
 
     public String getExceptionClass() {
       return exceptionClass;
-    }
-
-    public String getThrownFrom() {
-      return thrownFrom;
     }
 
     public String getCalledFrom() {
@@ -92,6 +100,10 @@ public class XmlRules {
 
     public String getCustom() {
       return custom;
+    }
+
+    public String getThrownFrom() {
+      return thrownFrom;
     }
   }
 }

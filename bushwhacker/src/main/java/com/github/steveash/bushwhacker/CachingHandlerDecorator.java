@@ -12,48 +12,61 @@ import java.util.Set;
 public class CachingHandlerDecorator implements ExceptionHandler {
 
   public CachingHandlerDecorator(ExceptionHandler delegate) {
+    this.locals = new LocalCache();
     this.delegate = delegate;
   }
 
-  private static class LocalCache {
+  public static class LocalCache {
 
-    final Set<Throwable> seen = Sets.newIdentityHashSet();
+    private final ThreadLocal<Set<Throwable>> locals = new ThreadLocal<Set<Throwable>>() {
+        @Override
+        protected Set<Throwable> initialValue() {
+          return Sets.newIdentityHashSet();
+        }
+      };
+
+    public Set<Throwable> getSeen() {
+      return locals.get();
+    }
   }
 
-  private final ThreadLocal<LocalCache> locals = new ThreadLocal<LocalCache>() {
-    @Override
-    protected LocalCache initialValue() {
-      return new LocalCache();
-    }
-  };
-
+  private final LocalCache locals;
   private final ExceptionHandler delegate;
 
   @Override
   public boolean handle(Throwable candidate) {
-    LocalCache local = locals.get();
+    Set<Throwable> seen = locals.getSeen();
 
-    clearIfNewThrowChain(candidate, local);
-    if (hasAlreadyHandled(candidate, local)) {
+    clearIfNewThrowChain(candidate, seen);
+    if (hasAlreadyHandled(candidate, seen)) {
       return false;
     }
 
-    local.seen.add(candidate);
+    seen.add(candidate);
     return delegate.handle(candidate);
   }
 
-  private boolean hasAlreadyHandled(Throwable candidate, LocalCache local) {
-    return local.seen.contains(candidate);
+  private boolean hasAlreadyHandled(Throwable candidate, Set<Throwable> seen) {
+    return seen.contains(candidate);
   }
 
-  private void clearIfNewThrowChain(Throwable candidate, LocalCache local) {
+  private void clearIfNewThrowChain(Throwable candidate, Set<Throwable> seen) {
     // if we haven't seen anything from this causal chain assume its a new throw chain and clear
     Throwable e = candidate;
     while (e != null) {
-      if (hasAlreadyHandled(e, local)) {
+      if (hasAlreadyHandled(e, seen)) {
         return; // not new since we've seen one of em before
       }
+      e = e.getCause();
     }
-    local.seen.clear();
+    clear(seen);
+  }
+
+  public void reset() {
+    clear(locals.getSeen());
+  }
+
+  private void clear(Set<Throwable> seen) {
+    seen.clear();
   }
 }

@@ -43,6 +43,10 @@ public class MessageEnricher {
    */
   public static void enrich(Throwable t, String updateMessage) {
     String newMessage = createMessage(t.getMessage(), updateMessage, t.getClass().getSimpleName());
+    replace(t, newMessage);
+  }
+
+  public static void replace(Throwable t, String newMessage) {
     detailMessageSetter.set(t, newMessage);
   }
 }

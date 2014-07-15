@@ -1,5 +1,6 @@
 package com.github.steveash.bushwhacker;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 import com.github.steveash.bushwhacker.rules.XmlRules;
@@ -11,9 +12,9 @@ import com.github.steveash.bushwhacker.rules.XmlRules;
 public class RuleExceptionHandler implements ExceptionHandler {
 
   private final Predicate<Throwable> predicate;
-  private final XmlRules.ExceptionAction action;
+  private final Function<Throwable,?> action;
 
-  public RuleExceptionHandler(Predicate<Throwable> predicate, XmlRules.ExceptionAction action) {
+  public RuleExceptionHandler(Predicate<Throwable> predicate, Function<Throwable,?> action) {
     this.predicate = predicate;
     this.action = action;
   }
@@ -21,14 +22,9 @@ public class RuleExceptionHandler implements ExceptionHandler {
   @Override
   public boolean handle(Throwable candidate) {
     if (predicate.apply(candidate)) {
-      onMatch(candidate);
+      action.apply(candidate);
       return true;
     }
     return false;
-  }
-
-  private void onMatch(Throwable candidate) {
-    // only handle one kind of update right now; enriching the error message
-    MessageEnricher.enrich(candidate, action.getUpdateMessage());
   }
 }
