@@ -3,8 +3,6 @@ package com.github.steveash.bushwhacker;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
-import com.github.steveash.bushwhacker.rules.XmlRules;
-
 /**
  * Tries the specific exception against a particular rule
  * @author Steve Ash

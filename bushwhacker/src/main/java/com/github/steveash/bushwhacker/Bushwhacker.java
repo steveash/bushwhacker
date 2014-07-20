@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Main entry point in to the bushwhacker exception enrichment library.  Use one of the static
@@ -45,6 +46,7 @@ public class Bushwhacker {
     return Holder.defaultInstance;
   }
 
+  private final AtomicLong totalHandledCount = new AtomicLong(0);
   private final ExceptionChainHandler chainHandler;
 
   Bushwhacker(ExceptionChainHandler chainHandler) {
@@ -52,7 +54,14 @@ public class Bushwhacker {
   }
 
   public void handle(Throwable t) {
-    this.chainHandler.handle(t);
+    boolean handled = this.chainHandler.handle(t);
+    if (handled) {
+      totalHandledCount.incrementAndGet();
+    }
+  }
+
+  public long totalHandledCount() {
+    return totalHandledCount.get();
   }
 
   private static final class Holder {

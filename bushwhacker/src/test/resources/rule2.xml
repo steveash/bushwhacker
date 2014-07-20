@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+    <exceptions>
+        <exception>
+            <matches>
+                <exceptionClass>com.github.steveash.bushwhacker.AException</exceptionClass>
+                <!--<calledFrom>*</calledFrom>-->
+                <!--<messageMatches>*</messageMatches>-->
+            </matches>
+            <action>
+                <addHint>Caught the AException</addHint>
+            </action>
+        </exception>
+        <exception>
+            <matches>
+                <!--<exceptionClass>*</exceptionClass>-->
+                <calledFrom>com.github.steveash.bushwhacker.util.ThrowUtil</calledFrom>
+                <!--<messageMatches>*</messageMatches>-->
+            </matches>
+            <action>
+                <replaceMessage>My new message is BException</replaceMessage>
+            </action>
+        </exception>
+        <exception>
+            <matches>
+                <!--<exceptionClass>*</exceptionClass>-->
+                <!--<calledFrom></calledFrom>-->
+                <messageMatches>This is the song that never ends</messageMatches>
+            </matches>
+            <action>
+                <writeToLog>true</writeToLog>
+            </action>
+        </exception>
+    </exceptions>
+</rules>

@@ -23,6 +23,6 @@ public class ConfigLoaderTest {
     ExceptionRule first = rules.getExceptionRules().get(0);
     ExceptionRule second = rules.getExceptionRules().get(1);
     assertEquals("*", first.getMatches().getCalledFrom());
-    assertEquals("Another exception", second.getAction().getUpdateMessage().trim());
+    assertEquals("Another exception", second.getAction().getAddHint().trim());
   }
 }

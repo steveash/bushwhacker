@@ -8,9 +8,9 @@
                 <messageMatches>*</messageMatches>
             </matches>
             <action>
-                <updateMessage>
+                <addHint>
                     Add debug information here
-                </updateMessage>
+                </addHint>
             </action>
         </exception>
         <exception>
@@ -20,9 +20,9 @@
                 <messageMatches>*</messageMatches>
             </matches>
             <action>
-                <updateMessage>
+                <addHint>
                     Another exception
-                </updateMessage>
+                </addHint>
             </action>
         </exception>
     </exceptions>

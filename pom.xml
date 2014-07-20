@@ -100,6 +100,15 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
@@ -199,8 +208,24 @@
         </profile>
 
         <profile>
-            <id>release</id>
+            <id>sw-release-snapshot</id>
             <distributionManagement>
+                <snapshotRepository>
+                    <id>sw-artifactory</id>
+                    <name>sw-artifactory-snapshots</name>
+                    <url>http://membuild01:8081/artifactory/libs-snapshot-local</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+
+        <profile>
+            <id>sw-release</id>
+            <distributionManagement>
+                <repository>
+                    <id>sw-artifactory</id>
+                    <name>sw-artifactory-releases</name>
+                    <url>http://membuild01:8081/artifactory/libs-release-local</url>
+                </repository>
             </distributionManagement>
             <build>
                 <plugins>
@@ -212,9 +237,9 @@
                             <scmCommentPrefix>[Release ${project.version}]</scmCommentPrefix>
                             <preparationGoals/>
                             <releaseProfiles>
-                                build,release,sonar-reports,javadoc,integration-test,fcs.deploy.assembly
+                                build,release,javadoc,integration-test
                             </releaseProfiles>
-                            <goals>deploy javadoc:aggregate sonar:sonar</goals>
+                            <goals>deploy javadoc:aggregate</goals>
                             <checkModificationExcludes>
                                 <checkModificationExclude>build-number.txt
                                 </checkModificationExclude>

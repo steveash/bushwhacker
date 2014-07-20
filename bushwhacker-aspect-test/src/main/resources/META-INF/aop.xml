@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<aspectj>
+    <aspects>
+
+        <concrete-aspect name="com.xyz.MyExceptionAspect"
+                         extends="com.github.steveash.bushwhacker.aop.ExceptionAspect">
+            <pointcut name="myTypes" expression="within(com.github.steveash.bushwhacker.aoptest..*)"/>
+        </concrete-aspect>
+        <aspect name="com.github.steveash.bushwhacker.aoptest.TestAspect"/>
+    </aspects>
+    <weaver options="-verbose">
+        <exclude within="javax.*"/>
+        <exclude within="java.*"/>
+        <!--<include within="com.github.steveash.bushwhacker.*"/>-->
+    </weaver>
+</aspectj>

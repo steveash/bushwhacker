@@ -8,7 +8,6 @@
         <!--</concrete-aspect>-->
 
         <!--<aspect name="com.github.steveash.bushwhacker.aop.ExceptionAspect"/>-->
-        <!--<aspect name="com.github.steveash.bushwhacker.aop.TestAspect"/>-->
     </aspects>
     <!--<weaver options="-verbose">-->
     <weaver options="">
