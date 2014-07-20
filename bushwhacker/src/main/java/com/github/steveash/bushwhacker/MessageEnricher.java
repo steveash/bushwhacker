@@ -1,8 +1,11 @@
 package com.github.steveash.bushwhacker;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 
 import com.github.steveash.bushwhacker.util.SerializationUtil;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Knows how to construct the "enriched" messages and update the existing detail Messages
@@ -11,6 +14,8 @@ import com.github.steveash.bushwhacker.util.SerializationUtil;
  */
 public class MessageEnricher {
 
+  private static final CharMatcher wsMatcher = CharMatcher.WHITESPACE;
+
   private static final SerializationUtil.FieldSetter<Throwable> detailMessageSetter =
       SerializationUtil.getFieldSetter(Throwable.class, "detailMessage");
 
@@ -18,6 +23,9 @@ public class MessageEnricher {
 
   public static String createMessage(String original, String updateMessage,
                                      String exceptionMatched) {
+
+    updateMessage = StringUtils.replace(updateMessage, "\n", " ");
+    updateMessage = wsMatcher.collapseFrom(updateMessage, ' ');
 
     StringBuilder sb = new StringBuilder();
     sb.append("\n");
