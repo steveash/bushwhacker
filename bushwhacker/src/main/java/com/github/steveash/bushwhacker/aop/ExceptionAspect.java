@@ -23,15 +23,11 @@ public abstract class ExceptionAspect {
   public void thisAdvice() {
   }
 
-  @Pointcut("cflow(within(junit..*))")
-  public void frameworkCode() {
-  }
-
-  @Pointcut("myTypes() && within(java.lang.Object+) && !handler(*)")
+  @Pointcut("myTypes() && within(java.lang.Object+) && !handler(*) && call(* *..*(..)) && !within(*..*EnhancerBy*) && !within(*..*CGLIB*)")
   public void eligibleTypes() {
   }
 
-  @AfterThrowing(pointcut = "eligibleTypes() && !frameworkCode() && !thisAdvice()", throwing = "e")
+  @AfterThrowing(pointcut = "eligibleTypes() && !thisAdvice()", throwing = "e")
   public void afterThrown(Exception e) {
     Bushwhacker.tryForDefault().handle(e);
   }
