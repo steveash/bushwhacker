@@ -30,13 +30,13 @@ You can use Bushwhacker by:
 * Just invoke it yourself whenever is best for you
 
 ## Getting Started
-Bushwhacker is on Maven Central (well it will be shortly!).  So added a dependency:
+Bushwhacker is on Maven Central.  So added a dependency:
 
 ```xml
 <dependency>
     <groupId>com.github.steveash.bushwhacker</groupId>
     <artifactId>bushwhacker</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
