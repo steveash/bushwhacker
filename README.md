@@ -1,7 +1,7 @@
 bushwhacker
 ===========
 
-A simple aspectJ library that can be used to add debugging hints for common pitfalls experienced during java development
+A simple library that can be used to add debugging hints for common pitfalls experienced during java development either by aspectJ advice or a Junit @Rule
 
 ## The Problem
 Have you ever been pinged by a new or junior developer that says: "hey take a look at this stack-trace-- do you have any hints?"  Obviously, we try to build systems that fail in descriptive and helpful ways -- but sometimes things fail in ways that aren't easy to make more descriptive or are exceptions out of libraries that we can't easily edit or catch/re-throw.  In a second after glancing at the stack trace, the experienced developer knows what the problem is.  Would be nice if we could automate this...
@@ -36,7 +36,7 @@ Bushwhacker is on Maven Central.  So added a dependency:
 <dependency>
     <groupId>com.github.steveash.bushwhacker</groupId>
     <artifactId>bushwhacker</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -66,6 +66,54 @@ a bushwhacker.xml file in src/test/resources that looks like:
   </exceptions>
 </rules>
 ```
+
+The simplest way to use Bushwhacker is just by adding a Junit @Rule to use base test fixture that your tests inherit from.  Then Bushwhacker will be automatically invoked if any exceptions are thrown out of your unit tests.  If you just want to enable Bushwhacker for a single test, you can add the rule to that individual test as shown below:
+
+```java
+import com.github.steveash.bushwhacker.junit.BushwhackerRule;
+
+import org.junit.Rule;
+import org.junit.Test;
+
+public class MyServiceTest {
+
+  @Rule
+  public BushwhackerRule rule = Bushwhacker.testRuleForDefault();
+
+  @Test
+  public void shouldReplaceMessage() throws Exception {
+    callSomethingThatThrowsNastyExceptions();
+  }
+}
+```
+
+That's it!  Using our example bushwhacker.xml above, it catches a No Bean Exception thrown when trying to
+setup a database transaction and adds a helpful tip for other devs who stumble across this 
+problem.  Now if you run the unit test that causes this problem, you see an exception message like:
+
+```
+org.springframework.beans.factory.NoSuchBeanDefinitionException: 
+***************************************************************************
+  Bushwhacker matched an exception NoSuchBeanDefinitionException and wants to help you try
+  and diagnose your problem
+
+  The original (matching) problem was: No qualifying bean of type [org.springframework.transaction.PlatformTransactionManager] is defined
+
+  The following hint is provided to help you:
+     This usually happens when your unit test extends from the wrong test fixture. Since you are using something that needs the database, extend from DatabaseTestFixture. You might not even realize that your trying to use the database, but some code is going over an @Transactional which is causing it to try and use the database. 
+
+***************************************************************************
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:319)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:985)
+	...
+```
+
+### Using AspectJ instead of a Junit Rule
+AspectJ can be used to weave "throwing" advice so that you can intercept exceptions and enrich them or log them in any situation.  Bushwhacker is intended to be a help at unit test time, and thus generally the JUnit rule is the simplest way to go.  However, there are some cases where using AspectJ can help:
+* If you have pesky exceptions being thrown in different threads and they don't get logged or otherwise propogated to the main thread running your unit test.
+* If some library or legacy code is eating your exception before your code has the chance to propogate it.
+
+Because AspectJ can weave _any_ code as it is loaded by the classloader, it can provide more power when its needed.  NOTE: some of the throwing advice in the current version of AspectJ (1.8) breaks classes and causes verification errors during classloading.  If you run into this then you have to exclude those classes from weaving.
 
 If you already have load time weaving in your project setup, great! Skip to the next step.  If you
 don't then you need to modify your Surefire configuration to add load time weaving.  Add this to 
@@ -136,23 +184,4 @@ a file: `src/test/resources/META-INF/aop.xml` in your project.  This file needs 
 </aspectj>
 ```
 
-That's it!  The bushwhacker.xml above catches the No Bean exception thrown when trying to
-setup a database transaction and adds a helpful tip for other devs who stumble across this 
-problem.  Now when you run the unit test you see an exception message like:
-
-```
-org.springframework.beans.factory.NoSuchBeanDefinitionException: 
-***************************************************************************
-  Bushwhacker matched an exception NoSuchBeanDefinitionException and wants to help you try
-  and diagnose your problem
-
-  The original (matching) problem was: No qualifying bean of type [org.springframework.transaction.PlatformTransactionManager] is defined
-
-  The following hint is provided to help you:
-     This usually happens when your unit test extends from the wrong test fixture. Since you are using something that needs the database, extend from DatabaseTestFixture. You might not even realize that your trying to use the database, but some code is going over an @Transactional which is causing it to try and use the database. 
-
-***************************************************************************
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:319)
-	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:985)
-	...
-```
+That's it!  
