@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.steveash.bushwhacker</groupId>
         <artifactId>bushwhacker-parent</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -12,7 +12,31 @@
     <packaging>jar</packaging>
 
     <name>bushwhacker-aspect-test</name>
-    <url>http://maven.apache.org</url>
+    <description>Test module for testing aspectj</description>
+    <url>https://github.com/steveash/bushwhacker</url>
+
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>http://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Steve Ash</name>
+            <email>stevemash@gmail.com</email>
+            <organization>Steve Ash</organization>
+            <organizationUrl>https://github.com/steveash/bushwhacker</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:steveash/bushwhacker.git</connection>
+        <developerConnection>scm:git:git@github.com:steveash/bushwhacker.git</developerConnection>
+        <url>git@github.com:steveash/bushwhacker.git</url>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

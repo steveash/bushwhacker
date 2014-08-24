@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+    <exceptions>
+        <exception>
+            <matches>
+                <exceptionClass>com.github.steveash.*.JunitTestException</exceptionClass>
+            </matches>
+            <action>
+                <replaceMessage>Replaced</replaceMessage>
+            </action>
+        </exception>
+    </exceptions>
+</rules>

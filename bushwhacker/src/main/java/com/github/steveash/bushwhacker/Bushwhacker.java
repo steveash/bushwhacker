@@ -1,5 +1,7 @@
 package com.github.steveash.bushwhacker;
 
+import com.github.steveash.bushwhacker.junit.BushwhackerRule;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Main entry point in to the bushwhacker exception enrichment library.  Use one of the static
- * factories to get an intance of bushwhacker
+ * factories to get an instance of bushwhacker
  *
  * @author Steve Ash
  */
@@ -25,6 +27,38 @@ public class Bushwhacker {
    */
   public static Bushwhacker forRules(String rulesFileNameOnClasspath) throws IOException {
     return Holder.builder.buildFromClasspath(rulesFileNameOnClasspath);
+  }
+
+  /**
+   * Creates a JUnit Rule instance for the bushwhacker rules specified by rulesFileNameOnClasspath
+   * this will fail if the rules can't be read.  You use this by adding a field in your junit
+   * test class of type BushwhackerRule annotated with Junit's @Rule annotation.  E.g.:
+   *
+   * <pre>
+   *   @Rule
+   *   private BushwhackerRule rule = Bushwhacker.testRuleFor("myRules.xml");
+   * </pre>
+   *
+   * @param rulesFileNameOnClasspath
+   * @return
+   */
+  public static BushwhackerRule testRuleFor(String rulesFileNameOnClasspath) {
+    try {
+      return new BushwhackerRule(forRules(rulesFileNameOnClasspath));
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Cannot load Bushwhacker rules named " +
+                                         rulesFileNameOnClasspath, e);
+    }
+  }
+
+  /**
+   * Gets the default bushwhacker rule instance from reading bushwhacker.xml from the classpath
+   * if these rules cant be found a warning will be logged and a no-op bushwhacker instance will
+   * be returned.  See #testRuleFor for an example of how to use bushwhacker in your code
+   * @return
+   */
+  public static BushwhackerRule testRuleForDefault() {
+    return new BushwhackerRule(tryForDefault());
   }
 
   /**
