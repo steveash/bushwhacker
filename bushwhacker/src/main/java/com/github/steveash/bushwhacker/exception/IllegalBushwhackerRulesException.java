@@ -1,4 +1,4 @@
-package com.github.steveash.bushwhacker.rules;
+package com.github.steveash.bushwhacker.exception;
 
 /**
  * @author Steve Ash

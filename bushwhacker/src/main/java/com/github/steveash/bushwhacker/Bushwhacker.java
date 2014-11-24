@@ -1,5 +1,6 @@
 package com.github.steveash.bushwhacker;
 
+import com.github.steveash.bushwhacker.exception.BushwhackerStartupException;
 import com.github.steveash.bushwhacker.junit.BushwhackerRule;
 
 import org.slf4j.Logger;
@@ -53,8 +54,7 @@ public class Bushwhacker {
 
   /**
    * Gets the default bushwhacker rule instance from reading bushwhacker.xml from the classpath
-   * if these rules cant be found a warning will be logged and a no-op bushwhacker instance will
-   * be returned.  See #testRuleFor for an example of how to use bushwhacker in your code
+   * See #testRuleFor for an example of how to use bushwhacker in your code
    * @return
    */
   public static BushwhackerRule testRuleForDefault() {
@@ -77,7 +77,11 @@ public class Bushwhacker {
   }
 
   public static Bushwhacker tryForDefault() {
-    return Holder.defaultInstance;
+    Bushwhacker maybeInstance = Holder.defaultInstance;
+    if (maybeInstance == null) {
+      throw Holder.initFailure;
+    }
+    return maybeInstance;
   }
 
   private final AtomicLong totalHandledCount = new AtomicLong(0);
@@ -102,15 +106,23 @@ public class Bushwhacker {
 
     private static final BushwhackerBuilder builder = new BushwhackerBuilder();
     private static final Bushwhacker defaultInstance;
+    private static final BushwhackerStartupException initFailure;
 
     static {
       Bushwhacker result;
+      BushwhackerStartupException failure;
       try {
         result = builder.buildFromClasspath(defaultRulesFileName);
+        failure = null;
       } catch (Exception e) {
-        result = logAndMakeNoOp(defaultRulesFileName, e);
+        result = null;
+        //noinspection ThrowableInstanceNeverThrown
+        failure = new BushwhackerStartupException("Cannot load the Bushwhacker XML file from " +
+                                              defaultRulesFileName + " due to " + e.getMessage(),
+                                              e);
       }
       defaultInstance = result;
+      initFailure = failure;
     }
   }
 

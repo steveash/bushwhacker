@@ -32,6 +32,14 @@ public class XmlRules {
     public ExceptionAction getAction() {
       return action;
     }
+
+    @Override
+    public String toString() {
+      return "ExceptionRule{" +
+             "matches=" + matches +
+             ", action=" + action +
+             '}';
+    }
   }
 
   public static class ExceptionAction {
@@ -60,6 +68,15 @@ public class XmlRules {
 
     public Boolean isWriteToLog() {
       return writeToLog;
+    }
+
+    @Override
+    public String toString() {
+      return "ExceptionAction{" +
+             "addHint='" + addHint + '\'' +
+             ", replaceMessage='" + replaceMessage + '\'' +
+             ", writeToLog=" + writeToLog +
+             '}';
     }
   }
 
@@ -105,5 +122,23 @@ public class XmlRules {
     public String getThrownFrom() {
       return thrownFrom;
     }
+
+    @Override
+    public String toString() {
+      return "ExceptionMatch{" +
+             "exceptionClass='" + exceptionClass + '\'' +
+             ", calledFrom='" + calledFrom + '\'' +
+             ", thrownFrom='" + thrownFrom + '\'' +
+             ", messageMatches='" + messageMatches + '\'' +
+             ", custom='" + custom + '\'' +
+             '}';
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "XmlRules{" +
+           "exceptionRules=" + exceptionRules +
+           '}';
   }
 }
