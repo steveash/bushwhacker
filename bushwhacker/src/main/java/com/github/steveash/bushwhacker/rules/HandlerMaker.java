@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 
 import com.github.steveash.bushwhacker.CompositeExceptionHandler;
 import com.github.steveash.bushwhacker.RuleExceptionHandler;
+import com.github.steveash.bushwhacker.exception.IllegalBushwhackerRulesException;
 
 import org.apache.commons.lang3.BooleanUtils;
 
@@ -32,7 +33,11 @@ public class HandlerMaker {
   }
 
   public RuleExceptionHandler buildHandlerFor(XmlRules.ExceptionRule rule) {
-    return new RuleExceptionHandler(makePredicate(rule), makeAction(rule));
+    try {
+      return new RuleExceptionHandler(makePredicate(rule), makeAction(rule));
+    } catch (RuntimeException e) {
+      throw new IllegalBushwhackerRulesException("Cannot build handler for bushwhacker rule " + rule, e);
+    }
   }
 
   private Predicate<Throwable> makePredicate(XmlRules.ExceptionRule rule) {
@@ -52,7 +57,7 @@ public class HandlerMaker {
       builder.add(PredicateMaker.makeCustom(matches.getCustom()));
     }
     if (isNotBlank(matches.getThrownFrom())) {
-      builder.add(PredicateMaker.makeThrownFrom(matches.getCustom()));
+      builder.add(PredicateMaker.makeThrownFrom(matches.getThrownFrom()));
     }
     return Predicates.and(builder.build());
   }

@@ -3,6 +3,7 @@ package com.github.steveash.bushwhacker.rules;
 import com.google.common.base.Predicate;
 import com.google.common.reflect.TypeToken;
 
+import com.github.steveash.bushwhacker.exception.IllegalBushwhackerRulesException;
 import com.github.steveash.bushwhacker.util.WildcardMatcher;
 
 import java.util.Set;

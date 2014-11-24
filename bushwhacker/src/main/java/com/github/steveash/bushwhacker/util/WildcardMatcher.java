@@ -1,8 +1,7 @@
 package com.github.steveash.bushwhacker.util;
 
 import com.google.common.base.CharMatcher;
-
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Preconditions;
 
 import java.util.regex.Pattern;
 
@@ -19,6 +18,7 @@ public class WildcardMatcher {
       inRange('a', 'z').or(inRange('0', '9')).or(inRange('A','Z')).or(anyOf(".?*():"));
 
   public static Pattern compileWildcardPattern(String pattern) {
+    Preconditions.checkNotNull(pattern, "The wildcard pattern cannot be null");
     if (!validChars.matchesAllOf(pattern)) {
       throw new IllegalArgumentException("Cannot match the pattern \"" + pattern +
                                          "\" because some of the characters in the pattern are not "
